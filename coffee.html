@@ -48,15 +48,10 @@
 <script>
     "use strict";
 
-    // var myImage = $("#coffee_image");
-    // var myRevenueMessage = $("#revenue");
-
     // myImage.setAttribute("src", "static/coffee_beans.jpg");
     $("#coffee_image").attr("src", "static/coffee_beans.jpg");
 
-    // myImage.addEventListener("click", makeCoffee);
-    $("#coffee_image").on("click", makeCoffee);
-
+   
     function coffeeMug() {
         $("#coffee_image").attr("src", "static/coffee_mug.jpg");
     }
@@ -64,19 +59,52 @@
     function coffeeBeans() {
         $("#coffee_image").attr("src", "static/coffee_beans.jpg");
     }
+    var espresso = $("#espresso");
+    var latte = $("#latte");
+    var hotChocolate = $("#hot-chocolate");
 
-    function makeCoffee() {
+    
+    //event listeners
+    $("#coffee_image").on("click", function() {return makeCoffee('brew');});
+    espresso.on("click", function() {return makeCoffee('espresso');});
+    latte.on("click", function() {return makeCoffee('latte');});
+    hotChocolate.on("click", function() {return makeCoffee('hot-chocolate');});
+    
+    //list of drinks ordered
+    var drinksOrdered = [];
+
+    function makeCoffee(drinkType) {
+
+        drinksOrdered.push(drinkType);
+
+        console.log(drinksOrdered);
+
          // myImage.src = "static/coffee_machine.jpg";
          $("#coffee_image").attr("src", "static/coffee_machine.jpg");
 
-         // setTimeout(function() { myImage.setAttribute("src", "static/coffee_mug.jpg"); }, 1500);
+         //setTimeout(function() { myImage.setAttribute("src", "static/coffee_mug.jpg"); }, 1500);
          //setTimeout(function() { $("#coffee_image").attr("src", "static/coffee_mug.jpg"); }, 1500);
          setTimeout(coffeeMug, 1500);
 
          // setTimeout(function() { myImage.setAttribute("src", "static/coffee_beans.jpg"); }, 4000);
          // setTimeout(function() { $("#coffee_image").attr("src", "static/coffee_beans.jpg"); }, 4000);
          setTimeout( coffeeBeans, 4000);
+
+         //display total revenue
+         var currentRevenue = revenue();
+         $("#revenue").html(currentRevenue);
     }       
+
+    var prices = {"espresso": 3.25, "latte": 4.15, "hot-chocolate": 2.50};
+    var total = 0
+
+    function revenue() {
+        for (var drink of drinksOrdered) {
+            total = total + (prices[drink]);
+            console.log(total);
+        };
+        return total;
+    }
 
 </script>
 
